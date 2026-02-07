@@ -73,15 +73,24 @@ inventoryPanel.BackgroundColor3 = Color3.fromRGB(30, 30, 34)
 inventoryPanel.BackgroundTransparency = 0.1
 inventoryPanel.Parent = leftPanel
 
+local inventoryImage = Instance.new("ImageLabel")
+inventoryImage.Name = "InventoryImage"
+inventoryImage.Size = UDim2.new(1, -20, 1, -20)
+inventoryImage.Position = UDim2.new(0, 10, 0, 10)
+inventoryImage.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
+inventoryImage.Image = ""
+inventoryImage.ScaleType = Enum.ScaleType.Fit
+inventoryImage.Parent = inventoryPanel
+
 local inventoryLabel = Instance.new("TextLabel")
 inventoryLabel.Name = "InventoryLabel"
-inventoryLabel.Size = UDim2.new(1, -20, 1, -20)
-inventoryLabel.Position = UDim2.new(0, 10, 0, 10)
+inventoryLabel.Size = UDim2.new(1, -20, 0, 36)
+inventoryLabel.Position = UDim2.new(0, 10, 1, -46)
 inventoryLabel.BackgroundTransparency = 1
 inventoryLabel.TextColor3 = Color3.fromRGB(200, 200, 200)
 inventoryLabel.Font = Enum.Font.Gotham
 inventoryLabel.TextSize = 12
-inventoryLabel.Text = "Инвентарь / магазин\n(заглушка)"
+inventoryLabel.Text = "Инвентарь / магазин"
 inventoryLabel.TextXAlignment = Enum.TextXAlignment.Left
 inventoryLabel.TextYAlignment = Enum.TextYAlignment.Top
 inventoryLabel.Parent = inventoryPanel
@@ -231,6 +240,7 @@ buttonGrid.Parent = soulMenu
 local selectedCandidate = "Justice"
 
 local soulDescriptions = {
+	Asgore = "Killer: базовый удар. Заглушка до уникальных атак.",
 	Justice = "Дальняя атака, простой выстрел. Подходит для старта.",
 	Bravery = "Закрыто.",
 	Patience = "Закрыто.",
@@ -258,12 +268,13 @@ local function createSoulButton(text, position, enabled)
 	return button
 end
 
-local justiceButton = createSoulButton("Justice", UDim2.new(0, 0, 0, 0), true)
-local braveryButton = createSoulButton("Bravery (locked)", UDim2.new(0, 220, 0, 0), false)
-local patienceButton = createSoulButton("Patience (locked)", UDim2.new(0, 0, 0, 70), false)
-local kindnessButton = createSoulButton("Kindness (locked)", UDim2.new(0, 220, 0, 70), false)
-local perseveranceButton = createSoulButton("Perseverance (locked)", UDim2.new(0, 0, 0, 140), false)
-local integrityButton = createSoulButton("Integrity (locked)", UDim2.new(0, 220, 0, 140), false)
+local asgoreButton = createSoulButton("Asgore", UDim2.new(0, 0, 0, 0), true)
+local justiceButton = createSoulButton("Justice", UDim2.new(0, 220, 0, 0), true)
+local braveryButton = createSoulButton("Bravery (locked)", UDim2.new(0, 0, 0, 70), false)
+local patienceButton = createSoulButton("Patience (locked)", UDim2.new(0, 220, 0, 70), false)
+local kindnessButton = createSoulButton("Kindness (locked)", UDim2.new(0, 0, 0, 140), false)
+local perseveranceButton = createSoulButton("Perseverance (locked)", UDim2.new(0, 220, 0, 140), false)
+local integrityButton = createSoulButton("Integrity (locked)", UDim2.new(0, 0, 0, 210), false)
 
 openMenuButton.MouseButton1Click:Connect(function()
 	soulMenu.Visible = not soulMenu.Visible
@@ -276,6 +287,7 @@ local function bindPreview(button, name)
 end
 
 bindPreview(justiceButton, "Justice")
+bindPreview(asgoreButton, "Asgore")
 bindPreview(braveryButton, "Bravery")
 bindPreview(patienceButton, "Patience")
 bindPreview(kindnessButton, "Kindness")
