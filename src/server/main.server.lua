@@ -32,7 +32,7 @@ Players.PlayerAdded:Connect(function(player)
 end)
 
 selectSoulEvent.OnServerEvent:Connect(function(player, soulName)
-	if soulName ~= "Justice" then
+	if soulName ~= "Justice" and soulName ~= "Asgore" then
 		return
 	end
 
@@ -42,16 +42,19 @@ end)
 
 task.spawn(function()
 	while true do
+		if #Players:GetPlayers() < MIN_PLAYERS then
+			matchStatusEvent:FireAllClients("need_more")
+			lobbyTimerEvent:FireAllClients(-1)
+			task.wait(1)
+			continue
+		end
+
 		for timeRemaining = LOBBY_DURATION, 0, -1 do
 			lobbyTimerEvent:FireAllClients(timeRemaining)
 			task.wait(1)
 		end
 
-		if #Players:GetPlayers() >= MIN_PLAYERS then
-			matchStatusEvent:FireAllClients("starting")
-			task.wait(3)
-		else
-			matchStatusEvent:FireAllClients("waiting")
-		end
+		matchStatusEvent:FireAllClients("starting")
+		task.wait(3)
 	end
 end)
