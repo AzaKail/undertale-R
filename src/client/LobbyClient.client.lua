@@ -11,6 +11,7 @@ local lobbyTimerEvent = remotes:WaitForChild("LobbyTimer")
 local selectSoulEvent = remotes:WaitForChild("SelectSoul")
 local soulSelectedEvent = remotes:WaitForChild("SoulSelected")
 local matchStatusEvent = remotes:WaitForChild("MatchStatus")
+local forceStartRoundEvent = remotes:WaitForChild("ForceStartRound")
 
 local ui = LobbyUI.create(playerGui)
 
@@ -93,6 +94,11 @@ ui.selectButton.MouseButton1Click:Connect(function()
 	selectSoulEvent:FireServer(selectedCandidate)
 end)
 
+ui.forceStartButton.MouseButton1Click:Connect(function()
+	ui.adminResultLabel.Text = "Requested force start..."
+	forceStartRoundEvent:FireServer()
+end)
+
 lobbyTimerEvent.OnClientEvent:Connect(function(timeRemaining)
 	if timeRemaining < 0 then
 		ui.timerLabel.Text = "Match starts in: --"
@@ -112,8 +118,13 @@ end)
 matchStatusEvent.OnClientEvent:Connect(function(status)
 	if status == "starting" then
 		ui.statusLabel.Text = "Match starting..."
+		ui.adminResultLabel.Text = "Round is starting now."
 	elseif status == "need_more" then
 		ui.statusLabel.Text = "Need more souls"
+	elseif status == "force_queued" then
+		ui.adminResultLabel.Text = "Force start queued."
+	elseif status == "force_denied" then
+		ui.adminResultLabel.Text = "Force start denied."
 	else
 		ui.statusLabel.Text = "Waiting for players"
 	end

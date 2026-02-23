@@ -86,26 +86,64 @@ function LobbyUI.create(playerGui)
 	inventoryLabel.TextYAlignment = Enum.TextYAlignment.Top
 	inventoryLabel.Parent = inventoryPanel
 
-	local playersPanel = Instance.new("Frame")
-	playersPanel.Name = "PlayersPanel"
-	playersPanel.AnchorPoint = Vector2.new(1, 0)
-	playersPanel.Position = UDim2.new(1, -20, 0.15, 0)
-	playersPanel.Size = UDim2.new(0, 220, 0, 280)
-	playersPanel.BackgroundColor3 = Color3.fromRGB(20, 20, 24)
-	playersPanel.BackgroundTransparency = 0.15
-	playersPanel.Parent = lobbyFrame
+	local adminPanel = Instance.new("Frame")
+	adminPanel.Name = "AdminPanel"
+	adminPanel.AnchorPoint = Vector2.new(1, 0)
+	adminPanel.Position = UDim2.new(1, -20, 0.15, 0)
+	adminPanel.Size = UDim2.new(0, 220, 0, 280)
+	adminPanel.BackgroundColor3 = Color3.fromRGB(20, 20, 24)
+	adminPanel.BackgroundTransparency = 0.15
+	adminPanel.Parent = lobbyFrame
 
-	local playersTitle = Instance.new("TextLabel")
-	playersTitle.Name = "PlayersTitle"
-	playersTitle.Size = UDim2.new(1, -20, 0, 24)
-	playersTitle.Position = UDim2.new(0, 10, 0, 10)
-	playersTitle.BackgroundTransparency = 1
-	playersTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
-	playersTitle.Font = Enum.Font.GothamBold
-	playersTitle.TextSize = 14
-	playersTitle.Text = "Player list"
-	playersTitle.TextXAlignment = Enum.TextXAlignment.Left
-	playersTitle.Parent = playersPanel
+	local adminTitle = Instance.new("TextLabel")
+	adminTitle.Name = "AdminTitle"
+	adminTitle.Size = UDim2.new(1, -20, 0, 24)
+	adminTitle.Position = UDim2.new(0, 10, 0, 10)
+	adminTitle.BackgroundTransparency = 1
+	adminTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+	adminTitle.Font = Enum.Font.GothamBold
+	adminTitle.TextSize = 14
+	adminTitle.Text = "Admin panel"
+	adminTitle.TextXAlignment = Enum.TextXAlignment.Left
+	adminTitle.Parent = adminPanel
+
+	local adminHint = Instance.new("TextLabel")
+	adminHint.Name = "AdminHint"
+	adminHint.Size = UDim2.new(1, -20, 0, 48)
+	adminHint.Position = UDim2.new(0, 10, 0, 40)
+	adminHint.BackgroundTransparency = 1
+	adminHint.TextColor3 = Color3.fromRGB(210, 210, 210)
+	adminHint.Font = Enum.Font.Gotham
+	adminHint.TextSize = 12
+	adminHint.Text = "Temporary debug controls\nfor local testing."
+	adminHint.TextXAlignment = Enum.TextXAlignment.Left
+	adminHint.TextYAlignment = Enum.TextYAlignment.Top
+	adminHint.Parent = adminPanel
+
+	local forceStartButton = Instance.new("TextButton")
+	forceStartButton.Name = "ForceStartButton"
+	forceStartButton.Size = UDim2.new(1, -20, 0, 34)
+	forceStartButton.Position = UDim2.new(0, 10, 0, 96)
+	forceStartButton.BackgroundColor3 = Color3.fromRGB(200, 80, 80)
+	forceStartButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+	forceStartButton.Font = Enum.Font.GothamBold
+	forceStartButton.TextSize = 12
+	forceStartButton.Text = "Force start round"
+	forceStartButton.Parent = adminPanel
+
+	local adminResultLabel = Instance.new("TextLabel")
+	adminResultLabel.Name = "AdminResultLabel"
+	adminResultLabel.Size = UDim2.new(1, -20, 0, 60)
+	adminResultLabel.Position = UDim2.new(0, 10, 0, 138)
+	adminResultLabel.BackgroundTransparency = 1
+	adminResultLabel.TextColor3 = Color3.fromRGB(200, 200, 200)
+	adminResultLabel.Font = Enum.Font.Gotham
+	adminResultLabel.TextSize = 12
+	adminResultLabel.Text = "Idle"
+	adminResultLabel.TextXAlignment = Enum.TextXAlignment.Left
+	adminResultLabel.TextYAlignment = Enum.TextYAlignment.Top
+	adminResultLabel.TextWrapped = true
+	adminResultLabel.Parent = adminPanel
 
 	local openMenuButton = Instance.new("TextButton")
 	openMenuButton.Name = "OpenMenuButton"
@@ -251,6 +289,8 @@ function LobbyUI.create(playerGui)
 		selectButton = selectButton,
 		killersGrid = killersGrid,
 		survivorsGrid = survivorsGrid,
+		forceStartButton = forceStartButton,
+		adminResultLabel = adminResultLabel,
 	}
 end
 
