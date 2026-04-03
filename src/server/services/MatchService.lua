@@ -25,17 +25,63 @@ local function findSkinFolder()
 	return nil
 end
 
-local function getSpawnCFrame(name, fallback)
-	local spawn = Workspace:FindFirstChild(name, true)
-	if spawn and spawn:IsA("BasePart") then
-		return spawn.CFrame
+local function getSpawnCFrame(names, fallback)
+	local candidates = typeof(names) == "table" and names or { names }
+	for _, name in ipairs(candidates) do
+		local spawn = Workspace:FindFirstChild(name, true)
+		if spawn and spawn:IsA("BasePart") then
+			return spawn.CFrame
+		end
 	end
 	return fallback or CFrame.new(0, 5, 0)
+end
+
+local function ensureHumanoid(character)
+	local humanoid = character:FindFirstChildOfClass("Humanoid")
+	if humanoid then
+		return humanoid
+	end
+
+	local typoHumanoid = character:FindFirstChild("Humanoidid")
+	if typoHumanoid and typoHumanoid:IsA("Humanoid") then
+		typoHumanoid.Name = "Humanoid"
+		return typoHumanoid
+	end
+
+	humanoid = Instance.new("Humanoid")
+	humanoid.Name = "Humanoid"
+	humanoid.Parent = character
+	return humanoid
+end
+
+local function ensureRootPart(character)
+	local root = character:FindFirstChild("HumanoidRootPart")
+	if root and root:IsA("BasePart") then
+		return root
+	end
+
+	local torso = character:FindFirstChild("Torso")
+	if torso and torso:IsA("BasePart") then
+		return torso
+	end
+
+	for _, descendant in ipairs(character:GetDescendants()) do
+		if descendant:IsA("BasePart") then
+			return descendant
+		end
+	end
+
+	return nil
 end
 
 local function applyCharacterModel(player, model, spawnCFrame)
 	local character = model:Clone()
 	character.Name = player.Name
+	ensureHumanoid(character)
+	local rootPart = ensureRootPart(character)
+	if rootPart then
+		character.PrimaryPart = rootPart
+	end
 	character.Parent = Workspace
 	player.Character = character
 	if spawnCFrame then
@@ -79,8 +125,8 @@ function MatchService.startMatch()
 	end
 
 	local killer = assignRoles(players)
-	local killerSpawn = getSpawnCFrame("killer spawn")
-	local survivorSpawn = getSpawnCFrame("surv spawn", killerSpawn)
+	local killerSpawn = getSpawnCFrame({ "killer_spawn", "killer spawn", "KillerSpawn" })
+	local survivorSpawn = getSpawnCFrame({ "surv_spawn", "surv spawn", "SurvSpawn" }, killerSpawn)
 
 	for _, player in ipairs(players) do
 		local role = player == killer and "Killer" or "Survivor"
